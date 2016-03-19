@@ -1,0 +1,23 @@
+<md-dialog ng-cloak aria-label="Manage Meme" class="memelamp" flex-xs="100" flex-sm="60" flex-gt-sm="40" ng-controller="ManageMemeController as mc">
+	<form name="projectForm">
+		<md-dialog-content>
+			<md-content class="md-padding">
+				<img class="center fit" src="{{mc.currentMeme.url}}">
+			</md-content>
+		</md-dialog-content>
+		<md-dialog-actions>
+			<md-button  title="Approve" ng-show="mc.currentMeme.is_approved == 0" ng-click="mc.approveMeme(mc.currentMeme.meme_id)">
+				<md-icon class="material-icons">done</md-icon>
+			</md-button>
+			<md-button title="Deny" ng-show="mc.currentMeme.is_approved == 0" ng-click="mc.disapproveMeme(mc.currentMeme.meme_id)">
+				<md-icon class="material-icons">block</md-icon>
+			</md-button>
+			<md-button ng-click="mc.editMeme(mc.currentMeme)">
+				<md-icon title="Edit" class="material-icons">mode_edit</md-icon>
+			</md-button>
+			<md-button title="Delete" ng-click="mc.showConfirm(mc.currentMeme.meme_id)">
+				<md-icon class="material-icons">delete</md-icon>
+			</md-button>
+		</md-dialog-actions>
+	</form>
+</md-dialog>

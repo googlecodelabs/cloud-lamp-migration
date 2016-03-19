@@ -1,0 +1,33 @@
+  <div class="table-responsive-vertical shadow-z-1" flex>
+    <table id="table" class="table table-hover table-mc-light-blue">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="user in ac.users() track by $index">
+          <td data-title="ID">
+              {{user.id}}
+          </td>
+          <td data-title="Email">
+              {{user.email != null ? user.email : '-' }}
+          </td>
+          <td data-title="Role">
+           <md-select aria-label="Role" ng-model="user.is_admin" md-on-open="previousvalue = user.is_admin" ng-change="ac.changeRole(user, previousvalue)">
+            <md-option ng-value="0">User</md-option>
+            <md-option ng-value="1">Admin</md-option>
+          </md-select>
+          </td>
+          <td>
+            <md-button title="Delete" ng-click="ac.showConfirmDeleteUser(user.id)">
+              <md-icon class="material-icons">delete</md-icon>
+            </md-button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

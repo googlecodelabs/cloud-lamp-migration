@@ -1,0 +1,54 @@
+   <span hidden>{{isAutoApprove = ac.isAutoApproved()}}</span>
+   <div class="table-responsive-vertical shadow-z-1">
+    <table id="table" class="table table-hover table-mc-light-blue">
+      <thead>
+        <tr>
+          <th>Meme</th>
+          <th>Top Text</th>
+          <th>Bottom Text</th>
+          <th>User</th>
+          <th>Created</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="meme in ac.memes() track by $index">
+          <td data-title="Meme">
+              <img ng-click="ac.manageMeme(meme)" class="thumbnail" ng-src="{{meme.url}}">
+          </td>
+          <td data-title="Top Text">
+              {{meme.top_text =='' ? '-' : meme.top_text }}
+          </td>
+          <td data-title="Bottom Text">
+              {{meme.bottom_text =='' ? '-' : meme.bottom_text }}
+          </td>
+          <td data-title="User">
+              {{meme.user_id}}
+          </td>
+          <td data-title="Created">
+              {{meme.created_at}}
+          </td>
+          <td data-title="Status">
+              {{meme.is_approved == 0 ? 'Pending Approval' : meme.is_approved == 1 ? 'Approved' : 'Denied' }}
+          </td>
+          <td>
+            <md-button title="Manage" ng-click="ac.manageMeme(meme)">
+              <md-icon class="material-icons">settings</md-icon>
+            </md-button>
+            <md-button ng-controller="ManageMemeController as mc" title="Edit" ng-click="mc.editMeme(meme)">
+                <md-icon class="material-icons">mode_edit</md-icon>
+            </md-button>
+            <md-button ng-controller="ManageMemeController as mc" title="Delete" ng-click="mc.showConfirm(meme.meme_id)">
+              <md-icon class="material-icons">delete</md-icon>
+            </md-button>
+            <div ng-if="isAutoApprove && meme.is_approved != -1">
+              <md-button title="Block" ng-controller="ManageMemeController as mc" ng-click="mc.disapproveMeme(meme.meme_id)">
+                <md-icon class="material-icons">block</md-icon>
+              </md-button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

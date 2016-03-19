@@ -1,0 +1,24 @@
+<md-dialog aria-label="Create Meme" ng-cloak ng-controller="GalleryController as gc" flex="40">
+   <form name="projectForm">
+      <md-dialog-content >
+         <md-content class="md-padding">
+            <md-content layout-align="center center"  >
+               <input type="hidden" id="text">
+              <div id="canvasRender" class="canvas-render" flex>
+               <meme-preview  input="imgfile" toptext= "text" bottomtext="text"></meme-preview>
+               </div>
+            </md-content>
+         </md-content>
+      </md-dialog-content>
+      <md-dialog-actions>
+         <div class="hidden-input">
+            <input type="file" id="imgfile">
+         </div>
+         <md-button type="button" onclick="document.getElementById('imgfile').click()">
+            <md-icon class="material-icons">add_a_photo</md-icon>
+            UPLOAD
+         </md-button>
+         <md-button class="md-primary" ng-click="gc.buildImage()">SAVE</md-button>
+      </md-dialog-actions>
+   </form>
+</md-dialog>

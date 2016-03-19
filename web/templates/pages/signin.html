@@ -1,0 +1,23 @@
+<form name="signinForm" novalidate button-form ng-submit="signinForm.$valid && signinController.signin($event)">
+    <md-input-container class="md-block">
+        <label>Login</label>
+        <md-icon>people</md-icon>
+        <input required name="login" ng-model="signinController.user.login">
+        <div ng-messages="signinForm.login.$error" role="alert">
+            <div ng-message="required">This is required.</div>
+        </div>
+    </md-input-container>
+    <md-input-container class="md-block">
+        <label>Password</label>
+        <md-icon>vpn_key</md-icon>
+        <input required type="password" name="password" ng-model="signinController.user.password">
+        <div ng-messages="signinForm.password.$error">
+            <div ng-message="required">This is required.</div>
+        </div>
+    </md-input-container>
+
+
+    <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+        <md-button type="submit" class="md-raised md-primary">SIGN IN</md-button>
+    </section>
+</form>

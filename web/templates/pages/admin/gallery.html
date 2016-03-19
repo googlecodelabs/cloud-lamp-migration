@@ -1,0 +1,16 @@
+<div ng-cloak class="fit" flex>
+  <md-button class="md-primary center" ng-click="ac.addToGallery()">ADD</md-button>
+  <md-grid-list flex="90" class="center"
+        md-cols-xs="2" md-cols-sm="3" md-cols-md="5" md-cols-gt-md="7"
+        md-row-height-gt-md="1:1" md-row-height="2:2"
+        md-gutter="12px" md-gutter-gt-sm="8px" >
+    <md-grid-tile ng-repeat="galleryItem in ac.gallery() track by $index">
+    	<img class="fill" ng-src="{{galleryItem.url}}" />
+		<md-grid-tile-footer>
+			<md-button class="center" ng-click="ac.removeGalleryItem(galleryItem.id)" >
+		        <md-icon class="material-icons icon-white">delete</md-icon>
+			</md-button>
+		</md-grid-tile-footer>
+    </md-grid-tile>
+  </md-grid-list>
+</div>

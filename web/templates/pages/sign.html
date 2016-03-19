@@ -1,0 +1,20 @@
+<div ng-cloak class="sign-container">
+  <md-content>
+    <md-tabs md-stretch-tabs md-dynamic-height md-selected="signController.selected" md-center-tabs="true" >
+      <md-tab label="SIGN UP">
+        <md-content class="md-padding">
+          <div ng-controller="SignupController as signupController">
+            <ng-include src="'../templates/pages/signup.html'"></ng-include>
+          </div>
+        </md-content>
+      </md-tab>
+      <md-tab label="SIGN IN">
+        <md-content class="md-padding">
+          <div ng-controller="SignInController as signinController">
+            <ng-include src="'../templates/pages/signin.html'"></ng-include>
+          </div>
+        </md-content>
+      </md-tab>
+    </md-tabs>
+  </md-content>
+</div>

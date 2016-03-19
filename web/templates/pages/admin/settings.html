@@ -1,0 +1,30 @@
+  <div class="table-responsive-vertical shadow-z-1" flex>
+    <table id="table" class="table table-hover table-mc-light-blue">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Key</th>
+          <th>Value</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="setting in ac.settings() track by $index">
+          <td data-title="ID">
+              {{setting.id}}
+          </td>
+          <td data-title="Key">
+              {{setting.key}}
+          </td>
+          <td data-title="Value">
+              {{setting.value != null ? setting.value : '-' }}
+          </td>
+          <td>
+            <md-button title="Edit" ng-click="ac.editSetting(setting)">
+              <md-icon class="material-icons">mode_edit</md-icon>
+            </md-button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

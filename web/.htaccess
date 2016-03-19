@@ -1,0 +1,10 @@
+RewriteEngine On
+
+#RewriteRule ^(/)?$ web [L]
+
+# Redirect all requests not pointing at an actual file to router.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^core/. core/router.php [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^core core/router.php [L]

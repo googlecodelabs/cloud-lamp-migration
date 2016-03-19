@@ -1,0 +1,42 @@
+<md-dialog aria-label="Create Meme" ng-cloak ng-controller="MemeController as app" flex='40'>
+   <form name="projectForm">
+      <md-toolbar>
+         <div class="md-toolbar-tools">
+            <h2>Generate Meme</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="app.cancel()">
+               <md-icon>close</md-icon>
+            </md-button>
+         </div>
+      </md-toolbar>
+      <md-dialog-content >
+         <md-content class="md-padding">
+            <div id="textInputMeme" style="">
+               <md-input-container class="md-block">
+                  <label>Text top</label>
+                  <input name="description" ng-model="app.text.top" id="top-text">
+               </md-input-container>
+               <md-input-container class="md-block">
+                  <label>Text Bottom</label>
+                  <input  name="clientName" ng-model="app.text.bottom" id="bottom-text">
+               </md-input-container>
+            </div>
+            <md-content layout-align="center center"  >
+              <div id="canvasRender" class="canvas-render" flex>
+               <meme-preview  input="imgfile" toptext= "top-text" bottomtext="bottom-text"></meme-preview>
+               </div>
+            </md-content>
+         </md-content>
+      </md-dialog-content>
+      <md-dialog-actions>
+         <div class="hidden-input">
+            <input type="file" id="imgfile" name="imageFile" accept="image/*" />
+         </div>
+         <md-button type="button" onclick="document.activeElement.blur();document.getElementById('imgfile').click(); ">
+            <md-icon class="material-icons">add_a_photo</md-icon>
+            UPLOAD
+         </md-button>
+         <md-button class="md-primary" ng-click="app.buildImage()">SAVE</md-button>
+      </md-dialog-actions>
+   </form>
+</md-dialog>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="GoogleMemeGenerator" ng-controller="AppController as app">
+  <head>
+    <title>Meme Generator</title>
+    <meta charset="utf-8">
+    <title>{{ app.title() }}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <!--<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/1.0.5/angular-material.min.css">-->
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="/css/app.min.css" rel="stylesheet">
+   <!-- <base href="/">-->
+
+   <style type="text/css">
+    .page-loading{
+      z-index: 1000;
+      position:fixed;
+      padding:0;
+      margin:0;
+      top:0;
+      left:0;
+      width: 100%;
+      height: 100%;
+      background:rgba(255,255,255,0.96);
+    }
+   </style>
+  </head>
+
+  <body class="md-body-1" ng-class="{ 'md-screen-medium': app.mediumScreen }" ng-cloak layout="row" >
+    <div class="app-message" id="app-message">
+    <div layout="column" layout-align="center center" class="app-message-text md-padding" flex="50" layout-xs="column" >
+      <div class="flex"><p>Texto de Exemplo</p></div>
+    </div>
+  </div>
+    <!-- Left Sidenav -->
+    <md-sidenav md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" md-is-open="false" ng-click="app.toggleList()" class="md-whiteframe-4dp">
+      <md-toolbar class="md-whiteframe-4dp">
+        <h2 class="md-toolbar-tools">Meme Generator</h2>
+      </md-toolbar>
+
+      <md-content md-scroll-y flex>
+        <md-sidemenu>
+          <md-sidemenu-group>
+            <div class="md-sidemenu-link" layout="column">
+              <md-button ui-sref="home()" ng-click="app.selectTab(0);">
+                <md-icon class="md-primary material-icons">home</md-icon>
+                <span>Meme Generator</span>
+              </md-button>
+            </div>
+
+            <div class="md-sidemenu-link" layout="column" ng-if="app.mediumScreen">
+              <md-button ui-sref="topvoted()"  ng-click="app.selectTab(1)">
+
+                <md-icon class="md-primary material-icons">favorite</md-icon>
+                <span>Top Voted</span>
+              </md-button>
+            </div>
+
+            <div class="md-sidemenu-link" layout="column" ng-if="app.mediumScreen">
+              <md-button ui-sref="home()">
+                <md-icon class="md-primary material-icons">whatshot</md-icon>
+                <span>New</span>
+              </md-button>
+            </div>
+
+            <div class="md-sidemenu-link" layout="column">
+              <md-button ui-sref="statistics()">
+                <md-icon class="md-primary material-icons">trending_up</md-icon>
+                <span>Statistics</span>
+              </md-button>
+            </div>
+          </md-sidemenu-group>
+
+          <md-sidemenu-group id="menu-admin" ng-show="app.isAdmin()">
+            <md-divider></md-divider>
+
+            <md-subheader class="md-no-sticky">Admin</md-subheader>
+
+            <div class="md-sidemenu-link" layout="column" >
+              <md-button ui-sref="adminsettings()">
+                <md-icon class="material-icons">settings</md-icon>
+                <span>Configure</span>
+              </md-button>
+            </div>
+
+            <div class="md-sidemenu-link" layout="column">
+              <md-button ui-sref="adminmemes()">
+                <md-icon class="material-icons">mode_edit</md-icon>
+                <span>Edit Memes</span>
+              </md-button>
+            </div>
+
+            <div class="md-sidemenu-link" layout="column">
+              <md-button ui-sref="admingallery()">
+                <md-icon class="material-icons">image</md-icon>
+                <span>Edit Gallery</span>
+              </md-button>
+            </div>
+            <div class="md-sidemenu-link" layout="column" >
+              <md-button ui-sref="adminusers()">
+                <md-icon class="material-icons">supervisor_account</md-icon>
+                <span>Edit Users</span>
+              </md-button>
+            </div>
+          </md-sidemenu-group>
+        </md-sidemenu>
+      </md-content>
+    </md-sidenav>
+
+    <div layout="column" flex>
+      <md-toolbar class="md-main-toolbar md-whiteframe-4dp" ng-class="{ 'md-medium-tall': !app.mediumScreen }">
+        <div class="md-toolbar-tools">                   
+          <div ng-show="!app.showSearch()" layout="row" layout-align="start center" flex>    
+            <md-button class="md-icon-button" ng-click="app.toggleList()" ng-if="!app.mediumScreen">
+              <md-icon class="material-icons">menu</md-icon>
+            </md-button>
+            <h2 ng-if="!app.mediumScreen" class="mobile-title">{{ app.title() }}</h2>
+            <span flex> </span>      
+            <md-button id="search-icon" class="md-icon-button" ng-click="app.setIsSearching(true);" >
+              <md-icon class="material-icons">search</md-icon>
+            </md-button> 
+            <md-menu md-position-mode="target-right target">
+              <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                <md-icon md-menu-origin>account_circle</md-icon>
+              </md-button>
+              <md-menu-content>
+                <md-menu-item ng-show="!app.signedIn()">
+                  <md-button ui-sref="sign({ action: 'signin' })" ng-click="signEnabled = true;">Sign in</md-button>
+                </md-menu-item>
+                <md-menu-item ng-show="!app.signedIn()">
+                  <md-button ui-sref="sign({ action: 'signup' })" ng-click="signEnabled = true;">Sign up</md-button>
+                </md-menu-item>
+                <md-menu-item ng-show="app.signedIn()">
+                  <md-button ng-click="app.signout()">Sign out</md-button>
+                </md-menu-item>
+              </md-menu-content>
+            </md-menu>
+          </div>
+          <div ng-show="app.showSearch()" class="search-container" layout="row" layout-align="start center" flex>
+            <md-button class="md-icon-button back" aria-label="Close search" ng-click="app.setIsSearching(false); app.setSearchTerm(''); searchText=''" ui-sref="home()">
+              <md-icon class="material-icons">arrow_back</md-icon>
+            </md-button>
+            <md-input-container class="search-bar" md-no-float flex="84">
+              <form ng-submit="app.search()">
+                <input type="search" id="searchTerm" name="searchTerm" ng-model="searchText" ng-keyup="app.setSearchTerm(searchText)" placeholder="Search" sync-focus-with="app.showSearch()" ng-required="!(searchText.length)"></input>
+              </form>
+            </md-input-container>
+            <span flex> </span>
+            <md-button class="md-icon-button clear" ng-click="app.setSearchTerm(''); searchText = ''">
+              <md-icon class="material-icons">clear</md-icon>
+            </md-button>
+          </div>          
+        </div>
+        <div ng-show="!app.mediumScreen && !app.showSearch() && isMemesList">
+          <md-tabs md-stretch-tabs="always" md-no-pagination="true" md-selected="selectedIndex">
+            <md-tab ui-sref="home()" label="New"></md-tab>
+            <md-tab ui-sref="topvoted()" label="Top Voted"></md-tab>
+          </md-tabs>
+        </div>
+      </md-toolbar>
+
+      <md-content layout="row" class="main-content" flex md-scroll-y infinite-scroll="app.loadMore()" threshold="100" can-load="app.canLoadMore()" id="main-content">
+        <div layout="column" layout-fill layout-align="top center" id="content" ui-view></div>
+      </md-content>
+    </div>
+
+    <md-fab-speed-dial md-direction="up" class="md-fab md-fab-bottom-right md-fling" ng-show="isMemesList || app.showSearch()">
+      <md-fab-trigger>
+        <md-button class="md-fab" aria-label="Add...">
+          <md-icon class="material-icons">add</md-icon>
+        </md-button>
+      </md-fab-trigger>
+
+      <md-fab-actions>
+        <md-button aria-label="Create from my images" class="md-fab md-raised md-mini" title="Create from my images" ng-click="app.openMemeUpload($event)">
+          <md-icon class="material-icons">image</md-icon>
+        </md-button>
+
+  <!--       <md-button aria-label="Create from gallery" class="md-fab md-raised md-mini" title="Create from gallery" ng-click="app.openGallery($event)"> -->
+        <md-button aria-label="Create from gallery" class="md-fab md-raised md-mini" title="Create from gallery" ng-click="app.openMemeGalery($event)">
+  
+          <md-icon class="material-icons">burst_mode</md-icon>
+        </md-button>
+      </md-fab-actions>
+    </md-fab-speed-dial>
+
+
+    <div id="meme-loading" class="meme-loading hide">
+      <div class="load">
+        <md-progress-circular md-mode="indeterminate" md-diameter="100"></md-progress-circular>
+      </div>
+    </div>
+
+    <div class="meme-loading page" ng-if="pageLoading">
+        <div class='load'>
+        <img src="images/pageLoading.gif" width="100px">
+        </div>
+     </div>
+
+    <!-- scripts:js --> 
+    <script src="/app.min.js"></script>
+    <!-- endinject -->
+  </body>
+</html>

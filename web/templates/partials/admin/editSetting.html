@@ -1,0 +1,17 @@
+<md-dialog ng-controller="EditSettingController as sc" ng-cloak aria-label="Edit Setting" class="memelamp" flex-xs="90" flex-sm="60" flex-gt-sm="40">
+	<form name="projectForm">
+		<md-dialog-content>
+			<md-content class="md-padding">
+				<md-input-container class="md-block">
+                  <label>{{sc.currentSetting.key}}</label>
+                  <input name="description" ng-model="sc.currentSetting.value">
+               </md-input-container>
+				<div>{{sc.currentSetting.description}}</div>
+			</md-content>
+		</md-dialog-content>
+		<md-dialog-actions>
+		<md-button class="md-primary" ng-click="sc.cancel()">CANCEL</md-button>
+			<md-button class="md-primary" ng-click="sc.saveSetting()">SAVE</md-button>
+		</md-dialog-actions>
+	</form>
+</md-dialog>

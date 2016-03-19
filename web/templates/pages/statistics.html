@@ -1,0 +1,77 @@
+
+<md-content layout-xs="column" layout="row" layout-align="center center" class="home-feed">
+    <md-card md-theme="card" class="card-header">
+        <md-card-header layout="row" layout-align="space-around start">
+            <div layout="column" layout-align=" stretch">
+                <p>Total users</p>
+                <div class="card-header-highlight">{{statisticsController.stat.total[0].total_users}}</div>
+            </div>
+            <div layout="column" layout-align=" stretch">
+                <p>Total memes</p>
+                <div class="card-header-highlight">{{statisticsController.stat.total[0].total_memes}}</div>
+            </div>
+        </md-card-header>
+        <md-card-content>
+            <div class="card-body">
+                <span class="card-body-title">Top up voted users</span>
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="align-left">
+                                <a href="#statistics" ng-click="sortTypeUp = 'user_id'; sortReverseUp = !sortReverseUp" class="header-table">
+                                    User
+                                </a>
+                            </th>
+                            <th>
+                                <a href="#statistics" ng-click="sortTypeUp = 'count_memes'; sortReverseUp = !sortReverseUp" class="header-table">
+                                    Memes
+                                </a>
+                                <th>
+                                    <a href="#statistics" ng-click="sortTypeUp = 'total_votes'; sortReverseUp = !sortReverseUp" class="header-table">
+                                    Votes
+                                  </a>
+                                </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="votes in statisticsController.stat.votesUp | orderBy:sortTypeUp:sortReverseUp ">
+                            <td>{{votes.user_id}}</td>
+                            <td class="align-center">{{votes.count_memes}}</td>
+                            <td class="align-center">{{votes.total_votes}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-body">
+                <span class="card-body-title">Top down voted users</span>
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="align-left">
+                                <a href="#statistics" ng-click="sortTypeDown = 'user_id'; sortReverseDown = !sortReverseDown" class="header-table">
+                                    User
+                                </a>
+                            </th>
+                            <th>
+                                <a href="#statistics" ng-click="sortTypeDown = 'count_memes'; sortReverseDown = !sortReverseDown" class="header-table">
+                                    Memes
+                                </a>
+                                <th>
+                                    <a href="#statistics" ng-click="sortTypeDown = 'total_votes'; sortReverseDown = !sortReverseDown" class="header-table">
+                                    Votes
+                                  </a>
+                                </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="votes in statisticsController.stat.votesDown | orderBy:sortTypeDown:sortReverseDown ">
+                            <td>{{votes.user_id}}</td>
+                            <td class="align-center">{{votes.count_memes}}</td>
+                            <td class="align-center">{{votes.total_votes}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </md-card-content>
+    </md-card>
+</md-content>
